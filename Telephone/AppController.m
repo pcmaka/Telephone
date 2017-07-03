@@ -69,7 +69,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSArray *accountsMenuItems;
 @property(nonatomic, weak) IBOutlet NSMenu *windowMenu;
 @property(nonatomic, weak) IBOutlet NSMenuItem *preferencesMenuItem;
-
+@property(nonatomic, retain) NSStatusItem * _Nullable statusBarItem;
+@property(nonatomic, retain) StatusMenuController * _Nullable statusMenuController;
 @property(nonatomic, readonly) CompositionRoot *compositionRoot;
 @property(nonatomic, readonly) PreferencesController *preferencesController;
 @property(nonatomic, readonly) id<RingtonePlaybackUseCase> ringtonePlayback;
@@ -295,6 +296,15 @@ NS_ASSUME_NONNULL_END
                                                      forEventClass:kInternetEventClass
                                                         andEventID:kAEGetURL];
     
+    [[NSUserDefaults standardUserDefaults] addObserver:self
+                                            forKeyPath:kShowDockIcon
+                                               options:NSKeyValueObservingOptionNew
+                                               context:NULL];
+    [[NSUserDefaults standardUserDefaults] addObserver:self
+                                            forKeyPath:kShowMenuBarIcon
+                                               options:NSKeyValueObservingOptionNew
+                                               context:NULL];
+    
     return self;
 }
 
@@ -302,6 +312,22 @@ NS_ASSUME_NONNULL_END
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
     [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:kShowDockIcon];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    
+    BOOL newValue = [[change objectForKey:@"new"] boolValue];
+    if ([keyPath isEqualToString:kShowDockIcon]) {
+        [self setIsForegroundApplication: newValue];
+    } else if ([keyPath isEqualToString:kShowMenuBarIcon]) {
+        [self setShowStatusBarIcon:newValue];
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 - (void)stopUserAgent {
@@ -1045,6 +1071,11 @@ NS_ASSUME_NONNULL_END
     if ([defaults boolForKey:kUseDNSSRV]) {
         [[self userAgent] setNameservers:[self currentNameservers]];
     }
+
+    BOOL showDockIcon = [defaults boolForKey:kShowDockIcon];
+    BOOL showMenuBarIcon = [defaults boolForKey:kShowMenuBarIcon];
+    [self setIsForegroundApplication:showDockIcon];
+    [self setShowStatusBarIcon:showMenuBarIcon];
     
     [[self userAgent] setOutboundProxyHost:[defaults stringForKey:kOutboundProxyHost]];
     
@@ -1237,6 +1268,38 @@ NS_ASSUME_NONNULL_END
     return NSTerminateNow;
 }
 
+#pragma mark -
+#pragma mark Appreance
+
+- (void)setIsForegroundApplication:(BOOL)isForegroundApp {
+    NSApplicationActivationPolicy policy;
+    if (isForegroundApp) {
+        policy = NSApplicationActivationPolicyRegular;
+    } else {
+        policy = NSApplicationActivationPolicyAccessory;
+    }
+    
+    [NSApp setActivationPolicy: policy];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NSApp activateIgnoringOtherApps:YES];
+    });
+}
+
+-(void)setShowStatusBarIcon:(BOOL)showIcon {
+    NSStatusBar *statusBar = [NSStatusBar systemStatusBar];
+    if (showIcon && self.statusBarItem == nil) {
+        self.statusMenuController = [[StatusMenuController alloc] init];
+        self.statusBarItem = [statusBar statusItemWithLength:NSVariableStatusItemLength];
+        [self.statusBarItem setImage:[NSImage imageNamed:@"offline-state"]];
+        self.statusBarItem.menu = [self.statusMenuController statusMenu];
+    } else if (!showIcon && self.statusBarItem != nil) {
+        [self.statusBarItem setView: nil];
+        [statusBar removeStatusItem:self.statusBarItem];
+        self.statusBarItem = nil;
+        self.statusMenuController = nil;
+    }
+}
 
 #pragma mark -
 #pragma mark AKSIPCall notifications
@@ -1343,7 +1406,6 @@ NS_ASSUME_NONNULL_END
     self.userSessionActive = YES;
     [self registerAllAccounts];
 }
-
 
 #pragma mark -
 #pragma mark Address Book plug-in notifications

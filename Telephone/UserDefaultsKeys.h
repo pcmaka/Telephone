@@ -42,6 +42,8 @@ extern NSString * const kKeepCallWindowOnTop;
 extern NSString * const kCallWaiting;
 extern NSString * const kUseG711Only;
 extern NSString * const kSettingsVersion;
+extern NSString * const kShowDockIcon;
+extern NSString * const kShowMenuBarIcon;
 
 // Account keys
 extern NSString * const kUUID;

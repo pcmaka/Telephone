@@ -153,6 +153,8 @@
 /* Network settings change confirmation. */
 "Save changes to the network settings?" = "Änderungen an den Netzwerkeinstellungen sichern?";
 
+/* Show the account window */
+"Show…" = "Öffnen…";
 /* Sound preferences window title. */
 "Sound" = "Ton";
 

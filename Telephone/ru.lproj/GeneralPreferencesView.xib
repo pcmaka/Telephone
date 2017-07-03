@@ -14,13 +14,13 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <userDefaultsController representsSharedInstance="YES" id="201"/>
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="150" userLabel="General">
-            <rect key="frame" x="0.0" y="0.0" width="539" height="134"/>
+            <rect key="frame" x="0.0" y="0.0" width="539" height="174"/>
             <subviews>
                 <stackView orientation="vertical" alignment="leading" spacing="6" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" translatesAutoresizingMaskIntoConstraints="NO" id="V8L-Bv-Lvu">
-                    <rect key="frame" x="85" y="20" width="374" height="94"/>
+                    <rect key="frame" x="85" y="20" width="374" height="134"/>
                     <beginningViews>
                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="255">
-                            <rect key="frame" x="-2" y="78" width="256" height="18"/>
+                            <rect key="frame" x="-2" y="118" width="256" height="18"/>
                             <buttonCell key="cell" type="check" title="Форматировать телефонные номера" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="256">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -30,7 +30,7 @@
                             </connections>
                         </button>
                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="418">
-                            <rect key="frame" x="-2" y="58" width="378" height="18"/>
+                            <rect key="frame" x="-2" y="98" width="378" height="18"/>
                             <buttonCell key="cell" type="check" title="Останавливать Айтюнс и Спотифай на время разговора" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="419">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -40,7 +40,7 @@
                             </connections>
                         </button>
                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="422">
-                            <rect key="frame" x="-2" y="38" width="270" height="18"/>
+                            <rect key="frame" x="-2" y="78" width="270" height="18"/>
                             <buttonCell key="cell" type="check" title="Автоматически закрывать окно звонка" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="423">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -50,7 +50,7 @@
                             </connections>
                         </button>
                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4r0-Lg-a5Z">
-                            <rect key="frame" x="-2" y="18" width="169" height="18"/>
+                            <rect key="frame" x="-2" y="58" width="169" height="18"/>
                             <buttonCell key="cell" type="check" title="Keep call window on top" bezelStyle="regularSquare" imagePosition="left" inset="2" id="3A5-we-tt6">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -60,13 +60,33 @@
                             </connections>
                         </button>
                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="427">
-                            <rect key="frame" x="-2" y="-2" width="137" height="18"/>
+                            <rect key="frame" x="-2" y="38" width="137" height="18"/>
                             <buttonCell key="cell" type="check" title="Ожидание вызова" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="428">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <connections>
                                 <binding destination="201" name="value" keyPath="values.CallWaiting" id="430"/>
+                            </connections>
+                        </button>
+                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YSl-Dg-Dqb">
+                            <rect key="frame" x="-2" y="18" width="145" height="18"/>
+                            <buttonCell key="cell" type="check" title="Show menu bar icon" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="NjB-SU-HPK">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <binding destination="201" name="value" keyPath="values.ShowMenuBarIcon" id="C7h-Zr-Nqz"/>
+                            </connections>
+                        </button>
+                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DU4-xR-LLG">
+                            <rect key="frame" x="-2" y="-2" width="118" height="18"/>
+                            <buttonCell key="cell" type="check" title="Show dock icon" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="1LV-xx-2Dg">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <binding destination="201" name="value" keyPath="values.ShowDockIcon" id="89a-JT-Xq2"/>
                             </connections>
                         </button>
                     </beginningViews>
@@ -76,8 +96,12 @@
                         <integer value="1000"/>
                         <integer value="1000"/>
                         <integer value="1000"/>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
                     </visibilityPriorities>
                     <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>

@@ -41,6 +41,8 @@ NSString * const kKeepCallWindowOnTop = @"KeepCallWindowOnTop";
 NSString * const kCallWaiting = @"CallWaiting";
 NSString * const kUseG711Only = @"UseG711Only";
 NSString * const kSettingsVersion = @"SettingsVersion";
+NSString * const kShowDockIcon = @"ShowDockIcon";
+NSString * const kShowMenuBarIcon = @"ShowMenuBarIcon";
 
 NSString * const kUUID = @"UUID";
 NSString * const kDescription = @"Description";
